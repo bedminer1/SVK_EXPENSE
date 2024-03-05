@@ -1,24 +1,46 @@
-import PocketBase from "pocketbase";
-import { SECRET_PASSWORD, SECRET_EMAIL, SECRET_URL } from "$env/static/private";
+import PocketBase from 'pocketbase';
+import { SECRET_PASSWORD, SECRET_EMAIL, SECRET_URL } from '$env/static/private';
 
 export const actions = {
-    create: async ({ request }) => {
-        const pb = new PocketBase(SECRET_URL)
-        await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD)
+	create: async ({ request }) => {
+		const pb = new PocketBase(SECRET_URL);
+		await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
 
-        const form = await request.formData()
-        const title = form.get('title') as string ?? ""
-        const category = form.get('title') as string ?? ""
-        const amount = form.get('amount') as unknown as number ?? 0
-        const date = form.get('date') as string ?? ""
+		const form = await request.formData();
+		const title = (form.get('title') as string) ?? '';
+		const category = (form.get('category') as string) ?? '';
+		const amount = (form.get('amount') as unknown as number) ?? 0;
+		const date = (form.get('date') as string) ?? '';
 
-        const newRecord: ExpenseInput = {
-            title,
-            category,
-            amount,
-            date
-        }
+		const newRecord: ExpenseInput = {
+			title,
+			category,
+			amount,
+			date
+		};
 
-        const record = await pb.collection('EXPENSES').create(newRecord)
-    }
-}
+		const record = await pb.collection('EXPENSES').create(newRecord);
+	}
+};
+
+export const load = async ({ fetch }) => {
+	const pb = new PocketBase(SECRET_URL);
+	await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
+	const records = await pb.collection('EXPENSES').getFullList(200, {
+		sort: '-created'
+	});
+
+	const results: Expense[] = records.map((record) => {
+		return {
+			title: record.title,
+			category: record.category,
+			amount: record.amount,
+			date: record.date,
+			id: record.id
+		};
+	});
+
+	return {
+		records: results
+	};
+};

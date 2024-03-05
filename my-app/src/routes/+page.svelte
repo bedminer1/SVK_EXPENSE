@@ -1,21 +1,31 @@
 <script lang="ts">
-	const date = new Date()
-	const defaultDate = date.toLocaleString('en-US',{hour12:false}).split(",")
-	const day = defaultDate[0].split('/')
-	const formattedDate = day[2] + '-' + day[1] + '-' + day[0]
-	console.log(formattedDate)
-
+	import ExpenseInput from '$lib/components/ExpenseInput.svelte'
+	export let data
+	const { records } = data
 </script>
 
 
-<form class="w-1/3 gap-3 flex flex-col justify-center items-center h-full" method="post" action="?/create">
-	<input class="input rounded-sm" required id="title" name="title" title="Title" type="text" placeholder="Enter Title" />
-	<select class="select px-5 rounded-sm" id="select" name="category">
-		<option value="food">food</option>
-		<option value="shopee">shopee</option>
-		<option value="gym">gym</option>
-	</select>
-	<input class="input rounded-sm" required id="amount" name="amount" title="Amount" type="text" placeholder="Enter Amount" />
-	<input class="hidden" id="date" name="date" type="text" value={formattedDate}/>
-	<button class="btn btn-sm variant-filled-primary" type="submit">Add Expence</button>
-</form>
+<div class="flex flex-col container justify-center items-center gap-4">
+	<ExpenseInput />	
+	{#each records as record} 
+		<div class="card p-2 w-1/3">
+			<header class="card-header">
+				{record.category}
+				<div class="float-right">
+					<form action="?/delete" method="post">
+						<input type="hidden" class="id" name="id" value={record.id}>
+						<button type="submit" class="btn btn-sm variant-filled-error">Delete</button>
+					</form>
+				</div>
+			</header>
+			<section class="p-4">
+				<p>{record.title}</p>
+				<br>
+				<p>${record.amount.toFixed(2)}</p>
+			</section>
+		</div>
+	{/each}
+</div>
+
+
+

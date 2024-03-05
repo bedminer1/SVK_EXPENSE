@@ -14,3 +14,11 @@ interface ExpenseInput {
 	amount: number,
 	date: string
 }
+
+interface Expense {
+	title: string,
+	category: string,
+	amount: number,
+	date: string,
+	id: string
+}
