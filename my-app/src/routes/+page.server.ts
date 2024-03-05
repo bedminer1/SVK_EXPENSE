@@ -20,7 +20,17 @@ export const actions = {
 		};
 
 		const record = await pb.collection('EXPENSES').create(newRecord);
-	}
+	},
+
+    delete: async ({ request }) => {
+        const pb = new PocketBase(SECRET_URL);
+        await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
+    
+        const form = await request.formData();
+        const id = (form.get("id") as string) ?? "";
+    
+        await pb.collection("EXPENSES").delete(id);
+      },
 };
 
 export const load = async ({ fetch }) => {

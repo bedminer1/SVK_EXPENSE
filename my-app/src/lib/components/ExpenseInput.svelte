@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
+
 	const date = new Date()
 	const defaultDate = date.toLocaleString('en-US',{hour12:false}).split(",")
 	const day = defaultDate[0].split('/')
 	const formattedDate = day[2] + '-' + day[1] + '-' + day[0]
 </script>
 
-<form class="w-1/3 gap-3 flex flex-col justify-center items-center h-1/5" method="post" action="?/create">
+<form class="w-1/3 gap-3 flex flex-col justify-center items-center h-1/5" method="post" action="?/create" use:enhance>
 	<input class="input rounded-sm" required id="title" name="title" title="Title" type="text" placeholder="Enter Title" />
 	<select class="select px-5 rounded-sm" id="select" name="category">
 		<option value="FOOD">food</option>
