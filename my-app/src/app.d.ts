@@ -7,3 +7,10 @@ declare namespace App {
 	// interface Error {}
 	// interface Platform {}
 }
+
+interface expenseInput {
+	title: string,
+	category: string,
+	amount: number,
+	date: string
+}
