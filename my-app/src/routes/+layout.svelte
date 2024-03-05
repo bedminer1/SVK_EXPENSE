@@ -22,4 +22,7 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
-<slot />
+<main class="h-screen w-full flex justify-center">
+	<slot />
+</main>
+

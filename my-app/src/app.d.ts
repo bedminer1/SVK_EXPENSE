@@ -8,7 +8,7 @@ declare namespace App {
 	// interface Platform {}
 }
 
-interface expenseInput {
+interface ExpenseInput {
 	title: string,
 	category: string,
 	amount: number,
