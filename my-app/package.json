@@ -42,6 +42,7 @@
   "dependencies": {
     "@floating-ui/dom": "1.6.3",
     "highlight.js": "11.9.0",
-    "i": "^0.3.7"
+    "i": "^0.3.7",
+    "pocketbase": "^0.21.1"
   }
 }
