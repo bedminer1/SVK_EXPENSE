@@ -4,11 +4,15 @@
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
 	import 'highlight.js/styles/github-dark.css';
-	import { storeHighlightJs } from '@skeletonlabs/skeleton';
+	import { AppShell, storeHighlightJs } from '@skeletonlabs/skeleton';
 	import xml from 'highlight.js/lib/languages/xml'; // for HTML
 	import css from 'highlight.js/lib/languages/css';
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
+	import { Toast } from '@skeletonlabs/skeleton';
+	import { initializeStores } from '@skeletonlabs/skeleton';
+
+	initializeStores();
 
 	hljs.registerLanguage('xml', xml); // for HTML
 	hljs.registerLanguage('css', css);
@@ -22,7 +26,9 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
-<main class="h-screen w-full flex justify-center">
+<Toast color='variant-soft-primary' />
+<main class="h-[100vh] flex justify-center items-center">
 	<slot />
 </main>
+
 

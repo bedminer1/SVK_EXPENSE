@@ -7,7 +7,8 @@
 
 
 <div class="flex flex-col container justify-center items-center gap-4">
-	<ExpenseInput />	
+	<ExpenseInput />
+	<h1 class="h1">Expenses</h1>	
 	{#each records as record} 
 		<ExpenseDisplayCard {record}/>
 	{/each}
