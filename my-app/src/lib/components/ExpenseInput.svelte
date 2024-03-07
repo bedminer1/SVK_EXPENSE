@@ -6,7 +6,8 @@
 	const toastStore: ToastStore = getToastStore();
 	const t: ToastSettings = {
 		message: 'expense logged',
-		timeout: 4000
+		timeout: 4000,
+		background: 'variant-soft-primary'
 	};
 
 
@@ -24,7 +25,7 @@
 		<option value="GYM">gym</option>
 		<option value="GROCERIES">groceries</option>
 	</select>
-	<input class="input rounded-sm" required id="amount" name="amount" title="Amount" type="text" placeholder="Enter Amount" />
+	<input class="input rounded-sm" required id="amount" name="amount" title="Amount" type="numeric" placeholder="Enter Amount" />
 	<input class="hidden" id="date" name="date" type="text" value={formattedDate}/>
 	<button class="btn btn-sm variant-filled-primary" type="submit" on:click={() => toastStore.trigger(t)}>Add Expence</button>
 </form>

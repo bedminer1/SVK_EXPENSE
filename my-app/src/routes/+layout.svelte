@@ -26,8 +26,8 @@
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
-<Toast color='variant-soft-primary' />
-<main class="h-[100vh] flex justify-center items-center">
+<Toast />
+<main class="min-h-[100vh] flex justify-center items-center">
 	<slot />
 </main>
 

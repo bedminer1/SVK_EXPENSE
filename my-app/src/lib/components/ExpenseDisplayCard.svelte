@@ -7,7 +7,7 @@
 	const t: ToastSettings = {
 		message: 'expense deleted',
 		timeout: 2000,
-        background: 'variant-filled-error'
+        background: 'variant-soft-error'
 	};
     export let record: Expense
 </script>
