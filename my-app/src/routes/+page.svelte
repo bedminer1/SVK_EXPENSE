@@ -2,7 +2,7 @@
 	import ExpenseInput from '$lib/components/ExpenseInput.svelte'
 	import ExpenseDisplayCard from '$lib/components/ExpenseDisplayCard.svelte'
 	export let data
-	const { records } = data
+	$: ({ records } = data)
 </script>
 
 

@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
+	import { enhance } from '$app/forms';
 
 	const toastStore: ToastStore = getToastStore();
 	const t: ToastSettings = {
 		message: 'expense logged',
-		timeout: 2000
+		timeout: 4000
 	};
 
 
@@ -15,7 +16,7 @@
 	const formattedDate = day[2] + '-' + day[1] + '-' + day[0]
 </script>
 
-<form class="card p-3 rounded-sm md:w-1/3 w-3/4 gap-3 flex flex-col justify-center items-center h-1/5 m-10" method="post" action="?/create">
+<form class="card p-3 rounded-sm md:w-1/3 w-3/4 gap-3 flex flex-col justify-center items-center h-1/5 m-10" method="post" action="?/create" use:enhance>
 	<input class="input rounded-sm" required id="title" name="title" title="Title" type="text" placeholder="Enter Title" />
 	<select class="select px-5 rounded-sm" id="select" name="category">
 		<option value="FOOD">food</option>

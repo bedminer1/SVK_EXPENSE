@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
     import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 
 	const toastStore: ToastStore = getToastStore();
 	const t: ToastSettings = {
 		message: 'expense deleted',
-		timeout: 2000
+		timeout: 2000,
+        background: 'variant-filled-error'
 	};
     export let record: Expense
 </script>
@@ -14,7 +16,7 @@
     <header class="card-header">
         {record.category}
         <div class="float-right">
-            <form action="?/delete" method="post">
+            <form action="?/delete" method="post" use:enhance>
                 <input type="hidden" class="id" name="id" value={record.id}>
                 <button type="submit" class="btn btn-sm variant-filled-error" on:click={() => toastStore.trigger(t)}>Delete</button>
             </form>
