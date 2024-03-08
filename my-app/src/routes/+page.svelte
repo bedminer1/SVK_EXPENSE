@@ -29,6 +29,7 @@
 
 
 <div class="flex flex-col container justify-center items-center gap-4">
+	<h1 class="h1 mt-10">$100&#60</h1>
 	<ExpenseInput />
 	<hr class="w-[60%] md:w-1/3 my-4" />
 	<div class="w-[60%] md:w-1/3 flex flex-col items-center">
