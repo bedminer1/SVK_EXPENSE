@@ -27,5 +27,5 @@
 	</select>
 	<input class="input rounded-sm" required id="amount" name="amount" title="Amount" type="text" placeholder="Enter Amount" />
 	<input class="hidden" id="date" name="date" type="text" value={formattedDate}/>
-	<button class="btn btn-sm variant-filled-primary" type="submit" on:click={() => toastStore.trigger(t)}>Add Expence</button>
+	<button class="btn btn-sm variant-filled-primary" type="submit" on:click={() => toastStore.trigger(t)}>Add Expense</button>
 </form>
