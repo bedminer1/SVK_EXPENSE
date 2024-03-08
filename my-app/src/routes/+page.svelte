@@ -30,28 +30,32 @@
 
 <div class="flex flex-col container justify-center items-center gap-4">
 	<ExpenseInput />
-	<div class="p-3 text-right">
-		<h2 class="h2 text-center">RECEIPT</h2>
-		<h3 class="h3">food: ${foodSum.toFixed(2)}</h3>
-		<h3 class="h3">shopee: ${shopeeSum.toFixed(2)}</h3>
-		<h3 class="h3">groceries: ${groceriesSum.toFixed(2)}</h3>
-		<h3 class="h3">gym: ${gymSum.toFixed(2)}</h3>
-		<h3 class="h3">total: ${monthlySum.toFixed(2)}</h3>
+	<hr class="w-[60%] md:w-1/3 my-4" />
+	<div class="w-[60%] md:w-1/3 flex flex-col items-center">
+		<div class="p-3 text-center mb-4 w-2/3 whitespace-pre">
+			<h2 class="h2 text-center">RECEIPT</h2>
+			<h3 class="h3">food:          ${foodSum.toFixed(2)}</h3>
+			<h3 class="h3">shopee:     ${shopeeSum.toFixed(2)}</h3>
+			<h3 class="h3">groceries: ${groceriesSum.toFixed(2)}</h3>
+			<h3 class="h3">gym:          ${gymSum.toFixed(2)}</h3>
+			<h3 class="h3">total:         ${monthlySum.toFixed(2)}</h3>
+		</div>
+		<select class="select h-10" name="month" id="month" bind:value={monthPicked}>
+			<option value="1">jan</option>
+			<option value="2">feb</option>
+			<option value="3">mar</option>
+			<option value="4">apr</option>
+			<option value="5">may</option>
+			<option value="6">jun</option>
+			<option value="7">jul</option>
+			<option value="8">aug</option>
+			<option value="9">sep</option>
+			<option value="10">oct</option>
+			<option value="11">nov</option>
+			<option value="12">dec</option>
+		</select>
 	</div>
-	<select class="select w-1/2" name="month" id="month" bind:value={monthPicked}>
-		<option value="1">jan</option>
-		<option value="2">feb</option>
-		<option value="3">mar</option>
-		<option value="4">apr</option>
-		<option value="5">may</option>
-		<option value="6">jun</option>
-		<option value="7">jul</option>
-		<option value="8">aug</option>
-		<option value="9">sep</option>
-		<option value="10">oct</option>
-		<option value="11">nov</option>
-		<option value="12">dec</option>
-	</select>
+	<hr class="w-[60%] md:w-1/3 my-7" />
 	<h1 class="h1">Expenses</h1>	
 	{#each records as record}
 		{#if parseInt(record.date.split('-')[2]) === currMonth} 
