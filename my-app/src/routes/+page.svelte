@@ -6,9 +6,20 @@
 	$: ({ records } = data)
 
 	// monthlySum
-	$: monthlySum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).reduce((accm, curr) => {
+	$: foodSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'FOOD').reduce((accm, curr) => {
 		return accm + curr.amount
 	}, 0)
+	$: shopeeSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'SHOPEE').reduce((accm, curr) => {
+		return accm + curr.amount
+	}, 0)
+	$: groceriesSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'GROCERIES').reduce((accm, curr) => {
+		return accm + curr.amount
+	}, 0)
+	$: gymSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'GYM').reduce((accm, curr) => {
+		return accm + curr.amount
+	}, 0)
+
+	$: monthlySum = gymSum + groceriesSum + shopeeSum + foodSum
 
 	// default month to current month, month picker
 	const currDate = new Date()
@@ -19,7 +30,14 @@
 
 <div class="flex flex-col container justify-center items-center gap-4">
 	<ExpenseInput />
-	<h1 class="h1">Expenses</h1>
+	<div class="p-3 text-right">
+		<h2 class="h2 text-center">RECEIPT</h2>
+		<h3 class="h3">food: ${foodSum.toFixed(2)}</h3>
+		<h3 class="h3">shopee: ${shopeeSum.toFixed(2)}</h3>
+		<h3 class="h3">groceries: ${groceriesSum.toFixed(2)}</h3>
+		<h3 class="h3">gym: ${gymSum.toFixed(2)}</h3>
+		<h3 class="h3">total: ${monthlySum.toFixed(2)}</h3>
+	</div>
 	<select class="select w-1/2" name="month" id="month" bind:value={monthPicked}>
 		<option value="1">jan</option>
 		<option value="2">feb</option>
@@ -33,13 +51,14 @@
 		<option value="10">oct</option>
 		<option value="11">nov</option>
 		<option value="12">dec</option>
-	</select>	
+	</select>
+	<h1 class="h1">Expenses</h1>	
 	{#each records as record}
 		{#if parseInt(record.date.split('-')[2]) === currMonth} 
 		<ExpenseDisplayCard {record}/>
 		{/if}
 	{/each}
-	<h3 class="h3">total: ${monthlySum.toFixed(2)}</h3>
+	
 </div>
 
 
