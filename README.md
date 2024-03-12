@@ -1,5 +1,3 @@
-# SVK_EXPENSE
-
 # **Why does this exist?:**
 
 One day, the thought of me being very wasteful and impulsive with my purchases came to me
