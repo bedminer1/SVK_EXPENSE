@@ -29,6 +29,11 @@
 
 
 <div class="flex flex-col container justify-center items-center gap-4">
+	<nav class="w-screen justify-end flex ">
+		<form action="?/logout" method="POST">
+			<button class="w-20 btn">Logout</button>
+		</form>
+	</nav>
 	<img src="stonks.png" alt="stonks" class="size-1/2 sm:size-1/4 mt-10">
 	<h1 class="h1 text-5xl mt-5">$100&#60</h1>
 	<ExpenseInput />

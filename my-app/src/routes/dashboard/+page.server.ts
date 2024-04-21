@@ -1,5 +1,6 @@
 import PocketBase from 'pocketbase';
 import { SECRET_PASSWORD, SECRET_EMAIL, SECRET_URL } from '$env/static/private';
+import { redirect } from '@sveltejs/kit';
 
 export const actions = {
 	create: async ({ request }) => {
@@ -31,6 +32,15 @@ export const actions = {
     
         await pb.collection("EXPENSES").delete(id);
       },
+
+	logout: async (event) => {
+		const {
+			locals: { pb }
+		} = event
+		pb.authStore.clear()
+
+		redirect(301, '/login')
+	}
 };
 
 export const load = async ({ fetch }) => {
