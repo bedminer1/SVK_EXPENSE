@@ -1,4 +1,3 @@
-import type { ClientResponseError } from 'pocketbase';
 import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod'
 import { superValidate, message } from 'sveltekit-superforms'
@@ -32,8 +31,11 @@ export const actions = {
 		try {
 			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
 		} catch (error) {
-			const errorObj = error as ClientResponseError;
-			return message(form, "User doesn't exist :/")
+			return message(
+				form,
+				"User doesn't exist :/",
+				{ status: 404 }
+			)
 		}
 
 		throw redirect(303, '/dashboard');
