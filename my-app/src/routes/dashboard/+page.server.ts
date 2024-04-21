@@ -38,12 +38,13 @@ export const actions = {
 			locals: { pb }
 		} = event
 		pb.authStore.clear()
+		event.cookies.delete('session', { path: '/'} )
 
 		redirect(301, '/login')
 	}
 };
 
-export const load = async ({ fetch }) => {
+export const load = async ({ fetch, locals }) => {
 	const pb = new PocketBase(SECRET_URL);
 	await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
 	const records = await pb.collection('EXPENSES').getFullList(200, {

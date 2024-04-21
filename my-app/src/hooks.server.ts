@@ -37,8 +37,9 @@ export const authorization: Handle = async ({ event, resolve }) => {
 		event.url.pathname !== '/'
 	) {
 		// check if there is an active session, else redirect to login
-		const loggedIn = event.locals.pb.authStore;
-		if (!loggedIn) {
+		// @ts-ignore
+		if (!event.locals.pb.authStore.baseModel) {
+			console.log("invalid session")
 			throw redirect(303, '/login');
 		}
 	}
