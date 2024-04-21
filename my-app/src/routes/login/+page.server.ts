@@ -1,28 +1,39 @@
 import type { ClientResponseError } from 'pocketbase';
 import { fail, redirect } from '@sveltejs/kit';
+import { z } from 'zod'
+import { superValidate, message } from 'sveltekit-superforms'
+import { zod } from 'sveltekit-superforms/adapters'
+
+
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string().min(5)
+});
 
 export const load = async ({ locals }) => {
 	if (locals.pb.authStore.model) {
 		return redirect(303, '/dashboard');
 	}
-	return {};
+
+	const form = await superValidate(zod(schema))
+	return {
+		form
+	};
 };
 
 export const actions = {
 	login: async ({ locals, request }) => {
-		const data = await request.formData();
-		const email = data.get('email');
-		const password = data.get('password');
+		const form = await superValidate(request, zod(schema))
 
-		if (!email || !password) {
-			return fail(400, { emailRequired: email === null, passwordRequired: password === null });
+		if (!form.valid) {
+			return fail(400, { form })
 		}
 
 		try {
-			await locals.pb.collection('users').authWithPassword(email.toString(), password.toString());
+			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
 		} catch (error) {
 			const errorObj = error as ClientResponseError;
-			return fail(500, { fail: true, message: errorObj.data.message });
+			return message(form, "User doesn't exist :/")
 		}
 
 		throw redirect(303, '/dashboard');

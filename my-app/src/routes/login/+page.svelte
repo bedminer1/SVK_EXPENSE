@@ -1,22 +1,28 @@
 <script lang="ts">
-	export let form
+    import { superForm } from 'sveltekit-superforms'
+
+    export let data
+
+    const { form, errors, constraints, message } = superForm(data.form)
 </script>
 
 <div class="h-full flex flex-col justify-center sm:mx-auto sm:w-full sm:max-w-sm">
-    {#if form?.fail}
-        <div class="variant-soft-error px-4 py-2 mb-2 rounded-token">
-            {form.message}
-        </div>
-    {/if}
     <form action="?/login" method="post">
         <label class="label">
             <span>E-Mail</span>
-            <input class="input" name="email" title="E-Mail" type="email" placeholder="mail@example.com" required />
+            <input class="input" name="email" bind:value={$form.email} type="email" placeholder="mail@example.com" />
+            {#if $errors.email}
+                <span>{$errors.email}</span>
+            {/if}
         </label>
         <label class="label mt-4">
             <span>Password</span>
-            <input class="input" name="password" title="Password" type="password" placeholder="******" required />
+            <input class="input" name="password" bind:value={$form.password} type="password" placeholder="******"  />
+            {#if $errors.password}
+                <span>{$errors.password}</span>
+            {/if}
         </label>
+        {#if $message}<h3>{$message}</h3>{/if}
         <button class="btn variant-filled w-full mt-4" type="submit">Login</button>
     </form>
 </div>
