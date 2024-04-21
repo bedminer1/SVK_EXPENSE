@@ -1,23 +1,34 @@
 import PocketBase from 'pocketbase';
 import { SECRET_PASSWORD, SECRET_EMAIL, SECRET_URL } from '$env/static/private';
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
+import { z } from 'zod'
+import { superValidate } from 'sveltekit-superforms'
+import { zod } from 'sveltekit-superforms/adapters'
+
+const schema = z.object({
+	title: z.string().min(2),
+	category: z.string().min(3),
+	amount: z.number().min(0.01),
+});
 
 export const actions = {
 	create: async ({ request }) => {
+		const form = await superValidate(request, zod(schema))
 		const pb = new PocketBase(SECRET_URL);
 		await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
 
-		const form = await request.formData();
-		const title = (form.get('title') as string) ?? '';
-		const category = (form.get('category') as string) ?? '';
-		const amount = (form.get('amount') as unknown as number) ?? 0;
-		const date = (form.get('date') as string) ?? '';
+		if (!form.valid) {
+			return fail(400, { form })
+		}
+
+		const date = new Date()
+		const defaultDate = date.toLocaleString('en-US',{hour12:false}).split(",")
+		const day = defaultDate[0].split('/')
+		const formattedDate = day[2] + '-' + day[1] + '-' + day[0]
 
 		const newRecord: ExpenseInput = {
-			title,
-			category,
-			amount,
-			date
+			...form.data,
+			date: formattedDate
 		};
 
 		const record = await pb.collection('EXPENSES').create(newRecord);
@@ -51,6 +62,7 @@ export const load = async ({ fetch, locals }) => {
 		sort: '-created'
 	});
 
+	const form = await superValidate(zod(schema))
 	const results: Expense[] = records.map((record) => {
 		return {
 			title: record.title,
@@ -62,6 +74,7 @@ export const load = async ({ fetch, locals }) => {
 	});
 
 	return {
-		records: results
+		records: results,
+		form
 	};
 };

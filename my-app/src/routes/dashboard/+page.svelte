@@ -36,7 +36,7 @@
 	</nav>
 	<img src="stonks.png" alt="stonks" class="size-1/2 sm:size-1/4 mt-10">
 	<h1 class="h1 text-5xl mt-5">$100&#60</h1>
-	<ExpenseInput />
+	<ExpenseInput superform={data.form}/>
 	<hr class="w-[60%] md:w-1/3 my-4" />
 	<div class="w-[60%] md:w-1/3 flex flex-col items-center">
 		<div class="p-3 text-center mb-4 w-2/3 whitespace-pre">
