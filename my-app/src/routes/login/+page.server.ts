@@ -31,6 +31,7 @@ export const actions = {
 		try {
 			await locals.pb.collection('users').authWithPassword(form.data.email, form.data.password);
 		} catch (error) {
+			form.data.password = ""
 			return message(
 				form,
 				"User doesn't exist :/",

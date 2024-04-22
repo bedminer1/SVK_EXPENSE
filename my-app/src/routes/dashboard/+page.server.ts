@@ -14,6 +14,7 @@ const schema = z.object({
 export const actions = {
 	create: async ({ request }) => {
 		const form = await superValidate(request, zod(schema))
+
 		const pb = new PocketBase(SECRET_URL);
 		await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
 
