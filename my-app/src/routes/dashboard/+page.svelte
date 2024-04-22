@@ -3,22 +3,32 @@
 	import ExpenseDisplayCard from '$lib/components/ExpenseDisplayCard.svelte'
 
 	export let data
-	$: ({ records } = data)
 
-	// monthlySum
-	$: foodSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'FOOD').reduce((accm, curr) => {
-		return accm + curr.amount
-	}, 0)
-	$: shopeeSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'SHOPEE').reduce((accm, curr) => {
-		return accm + curr.amount
-	}, 0)
-	$: groceriesSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'GROCERIES').reduce((accm, curr) => {
-		return accm + curr.amount
-	}, 0)
-	$: gymSum = data?.records.filter(record => parseInt(record.date.split('-')[2]) === currMonth).filter(record => record.category === 'GYM').reduce((accm, curr) => {
-		return accm + curr.amount
-	}, 0)
+	// monthlySum of a category 
+	function getSum(records: Expense[], category: string) {
+		return records
+		// filter month
+		.filter(record =>parseInt(record.date.split('-')[2]) === currMonth)
+		// filter category
+		.filter(record => record.category === category)
+		// accumulate values to a sum
+		.reduce((accm, curr) => {
+			return accm + curr.amount
+		}, 0)
+	}
 
+	// monthly sum of each category
+	let foodSum: number, shopeeSum: number, groceriesSum: number, gymSum: number
+	$: {
+		if (data) {
+			foodSum = getSum(data.records, "FOOD")
+			shopeeSum = getSum(data.records, "SHOPEE")
+			groceriesSum = getSum(data.records, "GROCERIES")
+			gymSum = getSum(data.records, "GYM")
+		}
+	} 
+
+	// sum of all categories
 	$: monthlySum = gymSum + groceriesSum + shopeeSum + foodSum
 
 	// default month to current month, month picker
@@ -64,12 +74,11 @@
 	</div>
 	<hr class="w-[60%] md:w-1/3 my-7" />
 	<h1 class="h1">Expenses</h1>	
-	{#each records as record}
+	{#each data.records as record}
 		{#if parseInt(record.date.split('-')[2]) === currMonth} 
 		<ExpenseDisplayCard {record}/>
 		{/if}
 	{/each}
-	
 </div>
 
 
