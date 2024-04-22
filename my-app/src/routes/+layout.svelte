@@ -27,7 +27,7 @@
 </script>
 
 <Toast />
-<main class="min-h-[100vh] flex justify-center items-center">
+<main class="min-h-[100vh] flex justify-center items-center p-0">
 	<slot />
 </main>
 

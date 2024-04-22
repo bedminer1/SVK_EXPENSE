@@ -7,7 +7,7 @@ import { zod } from 'sveltekit-superforms/adapters'
 
 const schema = z.object({
 	title: z.string().min(2),
-	category: z.string().min(3),
+	category: z.string().min(3).default("FOOD"),
 	amount: z.number().min(0.01),
 });
 
