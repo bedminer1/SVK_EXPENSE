@@ -2,8 +2,6 @@
 	import ExpenseInput from '$lib/components/ExpenseInput.svelte'
 	import ExpenseDisplayCard from '$lib/components/ExpenseDisplayCard.svelte'
 
-	export let data
-
 	// monthlySum of a category 
 	function getSum(records: Expense[], category: string) {
 		return records
@@ -17,16 +15,19 @@
 		}, 0)
 	}
 
+	export let data
+	console.log(getSum(data.records, "FOOD"));
+
 	// monthly sum of each category
-	let foodSum: number, shopeeSum: number, groceriesSum: number, gymSum: number
-	$: {
-		if (data) {
-			foodSum = getSum(data.records, "FOOD")
-			shopeeSum = getSum(data.records, "SHOPEE")
-			groceriesSum = getSum(data.records, "GROCERIES")
-			gymSum = getSum(data.records, "GYM")
-		}
-	} 
+	let foodSum = getSum(data.records, "FOOD")
+	let shopeeSum = getSum(data.records, "SHOPEE")
+	let groceriesSum = getSum(data.records, "GROCERIES")
+	let gymSum = getSum(data.records, "GYM")
+
+	$: foodSum = getSum(data.records, "FOOD")
+	$: shopeeSum = getSum(data.records, "SHOPEE")
+	$: groceriesSum = getSum(data.records, "GROCERIES")
+	$: gymSum = getSum(data.records, "GYM")
 
 	// sum of all categories
 	$: monthlySum = gymSum + groceriesSum + shopeeSum + foodSum
