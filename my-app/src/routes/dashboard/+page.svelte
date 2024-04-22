@@ -2,11 +2,16 @@
 	import ExpenseInput from '$lib/components/ExpenseInput.svelte'
 	import ExpenseDisplayCard from '$lib/components/ExpenseDisplayCard.svelte'
 
+	// default month to current month, month picker
+	const currDate = new Date()
+	let monthPicked: string = (currDate.getMonth() + 1).toString()
+	$: currMonth = parseInt(monthPicked) ?? currDate.getMonth() + 1
+
 	// monthlySum of a category 
-	function getSum(records: Expense[], category: string) {
+	function getSum(records: Expense[], category: string, month: number) {
 		return records
 		// filter month
-		.filter(record =>parseInt(record.date.split('-')[2]) === currMonth)
+		.filter(record => parseInt(record.date.split('-')[2]) === month)
 		// filter category
 		.filter(record => record.category === category)
 		// accumulate values to a sum
@@ -16,26 +21,20 @@
 	}
 
 	export let data
-	console.log(getSum(data.records, "FOOD"));
 
 	// monthly sum of each category
-	let foodSum = getSum(data.records, "FOOD")
-	let shopeeSum = getSum(data.records, "SHOPEE")
-	let groceriesSum = getSum(data.records, "GROCERIES")
-	let gymSum = getSum(data.records, "GYM")
+	let foodSum = getSum(data.records, "FOOD", currMonth)
+	let shopeeSum = getSum(data.records, "SHOPEE", currMonth)
+	let groceriesSum = getSum(data.records, "GROCERIES", currMonth)
+	let gymSum = getSum(data.records, "GYM", currMonth)
 
-	$: foodSum = getSum(data.records, "FOOD")
-	$: shopeeSum = getSum(data.records, "SHOPEE")
-	$: groceriesSum = getSum(data.records, "GROCERIES")
-	$: gymSum = getSum(data.records, "GYM")
+	$: foodSum = getSum(data.records, "FOOD", currMonth)
+	$: shopeeSum = getSum(data.records, "SHOPEE", currMonth)
+	$: groceriesSum = getSum(data.records, "GROCERIES", currMonth)
+	$: gymSum = getSum(data.records, "GYM", currMonth)
 
 	// sum of all categories
 	$: monthlySum = gymSum + groceriesSum + shopeeSum + foodSum
-
-	// default month to current month, month picker
-	const currDate = new Date()
-	let monthPicked: string = (currDate.getMonth() + 1).toString()
-	$: currMonth = parseInt(monthPicked) ?? currDate.getMonth() + 1
 </script>
 
 
@@ -81,6 +80,4 @@
 		{/if}
 	{/each}
 </div>
-
-
 
