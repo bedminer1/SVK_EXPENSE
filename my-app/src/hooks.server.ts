@@ -8,19 +8,21 @@ export const authentication: Handle = async ({ event, resolve }) => {
 	event.locals.pb = new PocketBase(SECRET_URL);
 
 	// load the store data from the request cookie string
-	event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
+	event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
 
 	try {
 		// get updated auth store by verifying and refreshing auth model
-		event.locals.pb.authStore.isValid && event.locals.pb.collection('users').authRefresh;
+		event.locals.pb.authStore.isValid &&  event.locals.pb.collection('users').authRefresh
 	} catch (_) {
-		event.locals.pb.authStore.clear();
+		event.locals.pb.authStore.clear()
 	}
 
-	const response = await resolve(event);
+	const response = await resolve(event)
 
 	// send back the default 'pb_auth' cookie to the client with the latest store state
-	response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie());
+	response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({ 
+		sameSite: "Lax", httpOnly: false
+	}));
 
 	return response;
 };
@@ -29,18 +31,14 @@ export const authentication: Handle = async ({ event, resolve }) => {
 // then we set permissions for this user
 const unprotectedPrefix = ['/login'];
 export const authorization: Handle = async ({ event, resolve }) => {
-	// protect routes under auth
-	if (
-		// checks if event.url.pathname starts with one of the unprotected prefixes
-		!unprotectedPrefix.some((path) => event.url.pathname.startsWith(path)) &&
-		// except home, home doesnt have to have the prefix
-		event.url.pathname !== '/'
-	) {
+	
+	// checks if event.url.pathname starts with one of the unprotected prefixes
+	if (!unprotectedPrefix.some((path) => event.url.pathname.startsWith(path)) && event.url.pathname !== '/') {
 		// check if there is an active session, else redirect to login
-		// @ts-ignore
-		if (!event.locals.pb.authStore) {
+		const loggedIn = event.locals.pb.authStore.isValid
+		if (!loggedIn) {
 			console.log("Error: invalid session")
-			// throw redirect(303, '/login');
+			throw redirect(303, '/login');
 		}
 	}
 
