@@ -52,6 +52,11 @@
 	<h1 class="h1 text-5xl mt-5">$100&#60</h1>
 <!-- INPUT FORM -->
 	<ExpenseInput superform={data.form}/>
+
+	{#await data.records}
+		<p>loading...</p>
+		
+	{:then records} 
 <!-- DATA SUMMARY -->
 	<hr class="w-[60%] md:w-1/3 my-4" />
 	<div class="w-[60%] md:w-1/3 flex flex-col items-center">
@@ -71,12 +76,14 @@
 			<h3 class="h3">total:         ${monthlySum.toFixed(2)}</h3>
 		</div>
 	</div>
-	<hr class="w-[60%] md:w-1/3 my-7" />
-	<h1 class="h1">Expenses</h1>	
-	{#each data.records as record}
-		{#if parseInt(record.date.split('-')[2]) === currMonth} 
-		<ExpenseDisplayCard {record}/>
-		{/if}
-	{/each}
+	<hr class="w-[60%] md:w-1/3 my-7" />	
+		<h1 class="h1">Expenses</h1>	
+		{#each records as record}
+			{#if parseInt(record.date.split('-')[2]) === currMonth} 
+			<ExpenseDisplayCard {record}/>
+			{/if}
+		{/each}
+	{/await}
+
 </div>
 

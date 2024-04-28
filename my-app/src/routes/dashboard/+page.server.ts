@@ -57,25 +57,30 @@ export const actions = {
 };
 
 export const load = async ({ fetch, locals }) => {
-	const pb = new PocketBase(SECRET_URL);
-	await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
-	const records = await pb.collection('EXPENSES').getFullList(200, {
-		sort: '-created'
-	});
 
 	const form = await superValidate(zod(schema))
-	const results: Expense[] = records.map((record) => {
-		return {
-			title: record.title,
-			category: record.category,
-			amount: record.amount,
-			date: record.date,
-			id: record.id
-		};
-	});
 
+	async function fetchRecords() {
+		const pb = new PocketBase(SECRET_URL);
+			await pb.admins.authWithPassword(SECRET_EMAIL, SECRET_PASSWORD);
+			const records = await pb.collection('EXPENSES').getFullList(200, {
+				sort: '-created'
+			});
+		const results: Expense[] = records.map((record) => {
+			return {
+				title: record.title,
+				category: record.category,
+				amount: record.amount,
+				date: record.date,
+				id: record.id
+			};
+		});
+		return results
+	}
+	
 	return {
-		records: results,
-		form
+		form,
+		records: await fetchRecords(),
 	};
+
 };
