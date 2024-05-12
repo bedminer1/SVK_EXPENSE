@@ -59,8 +59,8 @@
 		
 	{:then records} 
 <!-- DATA SUMMARY -->
-	<hr class="w-[60%] md:w-1/3 my-4" />
-	<div class="w-[60%] md:w-1/3 flex flex-col items-center">
+	<hr class="w-[60%] md:w-1/2 my-4" />
+	<div class="w-[60%] md:w-1/2 flex flex-col items-center">
 		<div class="w-full flex justify-end">
 			<select class="select h-10 w-20" name="month" id="month" bind:value={monthPicked}>
 				{#each months as month, index}
@@ -77,7 +77,7 @@
 			<h3 class="h3">total:         ${monthlySum.toFixed(2)}</h3>
 		</div>
 	</div>
-	<hr class="w-[60%] md:w-1/3 my-7" />	
+	<hr class="w-[60%] md:w-1/2 my-7" />	
 		<h1 class="h1 mb-3">Expenses</h1>
 		<table class="table w-1/2">
 			<thead>
