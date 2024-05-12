@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ExpenseInput from '$lib/components/ExpenseInput.svelte'
 	import ExpenseDisplayCard from '$lib/components/ExpenseDisplayCard.svelte'
+	import { enhance } from '$app/forms'
 
 	// default month to current month, month picker
 	const currDate = new Date()
@@ -77,12 +78,34 @@
 		</div>
 	</div>
 	<hr class="w-[60%] md:w-1/3 my-7" />	
-		<h1 class="h1">Expenses</h1>	
-		{#each records as record}
-			{#if parseInt(record.date.split('-')[2]) === currMonth} 
-			<ExpenseDisplayCard {record}/>
-			{/if}
-		{/each}
+		<h1 class="h1 mb-3">Expenses</h1>
+		<table class="table w-1/2">
+			<thead>
+				<th>Title</th>
+				<th>Amount</th>
+				<th>Category</th>
+				<th>Date</th>
+				<th>Actions</th>
+			</thead>
+			<tbody>
+			{#each records as record}
+				{#if parseInt(record.date.split('-')[2]) === currMonth} 
+				<tr class="text-center">
+					<td>{record.title}</td>
+					<td>{record.amount}</td>
+					<td>{record.category}</td>
+					<td>{record.date}</td>
+					<td>
+						<form action="?/delete" method="post" use:enhance>
+							<input type="hidden" class="id" name="id" value={record.id}>
+							<button type="submit" class="btn btn-sm variant-filled-error">Delete</button>
+						</form>
+					</td>
+				</tr>
+				{/if}
+			{/each}
+			</tbody>
+		</table>	
 	{/await}
 
 </div>
