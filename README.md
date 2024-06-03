@@ -12,6 +12,8 @@ setting a goal of $100< spent per month 🤔
  - app tracks the date the expense was logged and displays expenses by month;
    with a summary page for total spending in each category and total spending for each month
 
+ - TODO: summarizing different months expenses
+
 # Stack used: 
 
  PocketBase as a quick backend to store expenses; 
